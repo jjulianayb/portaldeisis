@@ -1,24 +1,67 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { StoreProvider, useStore } from "@/lib/store";
+import { useHydrated } from "@/hooks/use-hydrated";
+import { Login } from "@/components/Login";
+import { AppShell, type ViewKey } from "@/components/AppShell";
+import { DashboardView } from "@/components/views/Dashboard";
+import { PerfilView } from "@/components/views/Perfil";
+import { ConstituicaoView } from "@/components/views/Constituicao";
+import { ArquetiposView } from "@/components/views/Arquetipos";
+import { ConselhoView } from "@/components/views/Conselho";
+import { TarefasView } from "@/components/views/Tarefas";
+import { ChecklistView } from "@/components/views/Checklist";
+import { DiarioView } from "@/components/views/Diario";
+import { NumerologiaView } from "@/components/views/Numerologia";
+import { EspiritualidadeView } from "@/components/views/Espiritualidade";
+import { FengShuiView } from "@/components/views/FengShui";
+import { InsightsView } from "@/components/views/Insights";
+import { ImperioView } from "@/components/views/Imperio";
+import { RedeView } from "@/components/views/Rede";
+import { BackupView } from "@/components/views/Backup";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  component: () => (
+    <StoreProvider>
+      <RootGate />
+    </StoreProvider>
+  ),
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function RootGate() {
+  const hydrated = useHydrated();
+  const { hydrated: storeHydrated, unlocked } = useStore();
+
+  if (!hydrated || !storeHydrated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="font-display text-2xl gold-text animate-pulse">Juliana OS</div>
+      </div>
+    );
+  }
+  if (!unlocked) return <Login />;
+  return <AppRouter />;
+}
+
+function AppRouter() {
+  const [view, setView] = useState<ViewKey>("dashboard");
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <AppShell active={view} onNavigate={setView}>
+      {view === "dashboard" && <DashboardView onNavigate={setView} />}
+      {view === "perfil" && <PerfilView />}
+      {view === "constituicao" && <ConstituicaoView />}
+      {view === "arquetipos" && <ArquetiposView />}
+      {view === "conselho" && <ConselhoView />}
+      {view === "tarefas" && <TarefasView />}
+      {view === "checklist" && <ChecklistView />}
+      {view === "diario" && <DiarioView />}
+      {view === "numerologia" && <NumerologiaView />}
+      {view === "espiritualidade" && <EspiritualidadeView />}
+      {view === "fengshui" && <FengShuiView />}
+      {view === "insights" && <InsightsView />}
+      {view === "imperio" && <ImperioView />}
+      {view === "rede" && <RedeView />}
+      {view === "backup" && <BackupView />}
+    </AppShell>
   );
 }
