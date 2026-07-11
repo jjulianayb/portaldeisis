@@ -107,17 +107,26 @@ export function AppShell({
   return (
     <div className="min-h-screen flex">
       {/* Desktop sidebar */}
-      <aside className="hidden lg:block w-72 border-r border-border bg-[color-mix(in_oklab,var(--card)_70%,transparent)] backdrop-blur-sm sticky top-0 h-screen overflow-y-auto">
+      <aside className="hidden lg:block w-72 border-r border-border glass-soft sticky top-0 h-screen overflow-y-auto rounded-none">
         {NavList}
       </aside>
 
       {/* Mobile top bar */}
-      <div className="lg:hidden fixed top-0 inset-x-0 z-40 flex items-center justify-between px-4 h-14 bg-background/90 backdrop-blur border-b border-border">
+      <div className="lg:hidden fixed top-0 inset-x-0 z-40 flex items-center justify-between px-4 h-14 glass-soft rounded-none border-b border-border">
         <div className="flex items-center gap-2">
           <Sparkles className="w-4 h-4 gold-text" />
           <span className="font-display text-lg">Juliana OS</span>
         </div>
-        <button onClick={() => setOpen(true)} className="p-2"><Menu className="w-5 h-5" /></button>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={toggle}
+            aria-label={mode === "day" ? "Ativar modo noite" : "Ativar modo dia"}
+            className="p-2 rounded-full hover:bg-secondary/60"
+          >
+            {mode === "day" ? <Moon className="w-4 h-4 gold-text" /> : <Sun className="w-4 h-4 gold-text" />}
+          </button>
+          <button onClick={() => setOpen(true)} className="p-2" aria-label="Abrir menu"><Menu className="w-5 h-5" /></button>
+        </div>
       </div>
 
       {open && (
