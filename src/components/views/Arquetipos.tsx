@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useStore } from "@/lib/store";
 import { ARCHETYPES, type Archetype } from "@/lib/archetypes";
-import { PageHeader, Card, Chip, Textarea, Button } from "@/components/ui-kit";
+import { ARCHETYPE_IMAGES } from "@/lib/archetype-images";
+import { PageHeader, Chip, Textarea } from "@/components/ui-kit";
 import { X } from "lucide-react";
 
 export function ArquetiposView() {
@@ -17,39 +18,35 @@ export function ArquetiposView() {
         subtitle="Referências simbólicas para acessar diferentes posturas conforme a situação. Não são crenças factuais — são lentes."
       />
 
-      <div className="grid md:grid-cols-2 gap-5">
+      {/* Horizontal rail on mobile, grid on desktop */}
+      <div className="lg:hidden -mx-5 px-5 scroll-x flex gap-4 pb-4">
         {ARCHETYPES.map((a) => (
-          <button
-            key={a.id}
-            onClick={() => setOpenId(a.id)}
-            className="text-left sanctum-card p-6 hover:border-[color-mix(in_oklab,var(--gold)_40%,transparent)] transition"
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <div className="font-display text-3xl">{a.name}</div>
-                <div className="text-sm text-muted-foreground mt-1">{a.tagline}</div>
-              </div>
-            </div>
-            <div className="gold-divider mt-4 mb-4" />
-            <div className="flex flex-wrap gap-1.5">
-              {a.symbols.slice(0, 4).map((s) => <Chip key={s} tone="muted">{s}</Chip>)}
-            </div>
-            <p className="mt-4 italic text-sm gold-text">"{a.activation}"</p>
-          </button>
+          <ArchetypeCard key={a.id} a={a} onOpen={() => setOpenId(a.id)} className="snap-card w-[78%] max-w-[320px]" />
+        ))}
+      </div>
+
+      <div className="hidden lg:grid grid-cols-2 xl:grid-cols-3 gap-5">
+        {ARCHETYPES.map((a) => (
+          <ArchetypeCard key={a.id} a={a} onOpen={() => setOpenId(a.id)} />
         ))}
       </div>
 
       {open && (
-        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur flex items-center justify-center p-4 overflow-y-auto" onClick={() => setOpenId(null)}>
-          <div onClick={(e) => e.stopPropagation()} className="sanctum-card p-8 max-w-2xl w-full my-8">
-            <div className="flex items-start justify-between">
-              <div>
+        <div className="fixed inset-0 z-50 bg-background/70 backdrop-blur-lg flex items-center justify-center p-4 overflow-y-auto" onClick={() => setOpenId(null)}>
+          <div onClick={(e) => e.stopPropagation()} className="glass-card p-6 md:p-8 max-w-2xl w-full my-8">
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0">
                 <Chip>Arquétipo</Chip>
-                <h2 className="font-display text-5xl mt-2">{open.name}</h2>
-                <p className="text-muted-foreground mt-1">{open.tagline}</p>
+                <h2 className="font-display text-4xl md:text-5xl mt-2 truncate">{open.name}</h2>
+                <p className="text-muted-foreground mt-1 text-sm">{open.tagline}</p>
               </div>
-              <button onClick={() => setOpenId(null)} className="text-muted-foreground hover:text-foreground"><X className="w-5 h-5" /></button>
+              <button onClick={() => setOpenId(null)} className="text-muted-foreground hover:text-foreground shrink-0"><X className="w-5 h-5" /></button>
             </div>
+            {ARCHETYPE_IMAGES[open.id] && (
+              <div className="mt-5 rounded-xl overflow-hidden gold-border">
+                <img src={ARCHETYPE_IMAGES[open.id]} alt={open.name} className="w-full h-56 md:h-72 object-cover" loading="lazy" />
+              </div>
+            )}
             <div className="gold-divider my-6" />
 
             <Detail label="Narrativa simbólica">{open.narrative}</Detail>
@@ -74,11 +71,43 @@ export function ArquetiposView() {
   );
 }
 
+function ArchetypeCard({ a, onOpen, className = "" }: { a: Archetype; onOpen: () => void; className?: string }) {
+  const img = ARCHETYPE_IMAGES[a.id];
+  return (
+    <button
+      onClick={onOpen}
+      className={`group text-left glass-card overflow-hidden hover:border-[color-mix(in_oklab,var(--gold)_45%,transparent)] transition ${className}`}
+    >
+      <div className="relative aspect-[4/5] overflow-hidden">
+        {img && (
+          <img
+            src={img}
+            alt={a.name}
+            className="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-105"
+            loading="lazy"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+        <div className="absolute left-4 right-4 bottom-4">
+          <div className="font-display text-3xl leading-tight">{a.name}</div>
+          <div className="text-xs text-muted-foreground mt-0.5">{a.tagline}</div>
+        </div>
+      </div>
+      <div className="p-4">
+        <div className="flex flex-wrap gap-1.5">
+          {a.symbols.slice(0, 3).map((s) => <Chip key={s} tone="muted">{s}</Chip>)}
+        </div>
+        <p className="mt-3 italic text-sm gold-text line-clamp-2">"{a.activation}"</p>
+      </div>
+    </button>
+  );
+}
+
 function Detail({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="mb-5">
       <div className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-1">{label}</div>
-      <div className="text-sm">{children}</div>
+      <div className="text-sm leading-relaxed">{children}</div>
     </div>
   );
 }
