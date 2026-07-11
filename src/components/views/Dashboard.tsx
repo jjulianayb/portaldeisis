@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 import { useStore } from "@/lib/store";
 import { ARCHETYPES } from "@/lib/archetypes";
-import { Card, PageHeader, Chip, Button } from "@/components/ui-kit";
+import { ARCHETYPE_IMAGES } from "@/lib/archetype-images";
+import { PageHeader, Chip, Button } from "@/components/ui-kit";
 import type { ViewKey } from "@/components/AppShell";
 import { ArrowRight, Crown, ScrollText, Sparkles, CheckSquare, BookHeart, Flower2 } from "lucide-react";
 
@@ -55,6 +56,8 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
     })
     .slice(0, 4);
 
+  const heroImg = ARCHETYPE_IMAGES[archetype.id];
+
   return (
     <>
       <PageHeader
@@ -63,25 +66,65 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
         subtitle="Qual é a melhor versão da Juliana para este momento?"
       />
 
-      <div className="grid md:grid-cols-3 gap-5">
-        <Card className="md:col-span-2 relative overflow-hidden">
-          <Chip>Frase do dia</Chip>
-          <p className="mt-4 font-display text-2xl md:text-3xl leading-snug">"{phrase}"</p>
-          <div className="gold-divider mt-6" />
-          <div className="mt-6">
-            <Chip tone="wine">Arquétipo recomendado</Chip>
-            <div className="mt-3 flex items-start justify-between gap-4 flex-wrap">
-              <div>
-                <div className="font-display text-2xl">Hoje a Juliana precisa ser… {archetype.name}</div>
-                <p className="mt-1 text-muted-foreground text-sm max-w-xl">{archetype.tagline}. {archetype.narrative}</p>
-                <p className="mt-3 italic text-sm gold-text">"{archetype.activation}"</p>
-              </div>
-              <Button variant="outline" onClick={() => onNavigate("arquetipos")}>Consultar <ArrowRight className="inline w-3.5 h-3.5 ml-1" /></Button>
-            </div>
+      {/* Hero emocional */}
+      <div className="relative glass-card overflow-hidden mb-5">
+        {heroImg && (
+          <div className="absolute inset-0">
+            <img src={heroImg} alt="" className="w-full h-full object-cover opacity-30" loading="lazy" aria-hidden />
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />
           </div>
-        </Card>
+        )}
+        <div className="relative p-6 md:p-10 max-w-2xl">
+          <Chip>Frase do dia</Chip>
+          <p className="mt-4 font-display text-[26px] md:text-4xl leading-snug">"{phrase}"</p>
+          <div className="gold-divider mt-6 w-32" />
+          <div className="mt-6">
+            <Chip tone="wine">Arquétipo do dia</Chip>
+            <div className="mt-3">
+              <div className="font-display text-2xl md:text-3xl">
+                Hoje a Juliana precisa ser… <span className="gold-text">{archetype.name}</span>
+              </div>
+              <p className="mt-2 text-muted-foreground text-sm max-w-xl leading-relaxed">
+                {archetype.tagline}. {archetype.narrative}
+              </p>
+              <p className="mt-3 italic text-sm gold-text">"{archetype.activation}"</p>
+            </div>
+            <Button variant="outline" className="mt-5" onClick={() => onNavigate("arquetipos")}>
+              Consultar arquétipos <ArrowRight className="inline w-3.5 h-3.5 ml-1" />
+            </Button>
+          </div>
+        </div>
+      </div>
 
-        <Card>
+      {/* Rail horizontal de arquétipos */}
+      <div className="mb-6">
+        <div className="flex items-baseline justify-between mb-3 px-1">
+          <div className="text-[10px] uppercase tracking-[0.3em] gold-text">Panteão</div>
+          <button onClick={() => onNavigate("arquetipos")} className="text-xs text-muted-foreground hover:text-foreground">ver biblioteca →</button>
+        </div>
+        <div className="-mx-5 md:-mx-10 px-5 md:px-10 scroll-x flex gap-3 pb-3">
+          {ARCHETYPES.map((a) => (
+            <button
+              key={a.id}
+              onClick={() => onNavigate("arquetipos")}
+              className="snap-card relative w-[140px] h-[180px] rounded-xl overflow-hidden gold-border group"
+            >
+              {ARCHETYPE_IMAGES[a.id] && (
+                <img src={ARCHETYPE_IMAGES[a.id]} alt={a.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110" />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" />
+              <div className="absolute left-3 right-3 bottom-3">
+                <div className="font-display text-lg leading-tight">{a.name}</div>
+                <div className="text-[10px] uppercase tracking-widest text-muted-foreground truncate">{a.tagline.split(",")[0]}</div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Progresso + prioridades */}
+      <div className="grid md:grid-cols-2 gap-5">
+        <div className="glass-card p-6">
           <Chip>Progresso</Chip>
           <div className="mt-4 space-y-5">
             <ProgressBar label="Hoje" value={dailyPct} caption={`${dailyDone}/${dailyTotal} rituais`} />
@@ -91,15 +134,13 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
             <Stat label="Tarefas ativas" value={state.tasks.filter((t) => !t.done).length} />
             <Stat label="Concluídas" value={state.tasks.filter((t) => t.done).length} />
           </div>
-        </Card>
-      </div>
+        </div>
 
-      <div className="grid md:grid-cols-2 gap-5 mt-5">
-        <Card>
-          <div className="flex items-center justify-between">
-            <div>
-              <Chip>Próximas prioridades</Chip>
-              <h3 className="font-display text-2xl mt-3">O que pede sua presença</h3>
+        <div className="glass-card p-6">
+          <div className="flex items-center justify-between gap-3">
+            <div className="min-w-0">
+              <Chip>Prioridades</Chip>
+              <h3 className="font-display text-2xl mt-3 truncate">O que pede sua presença</h3>
             </div>
             <Button variant="ghost" onClick={() => onNavigate("tarefas")}>Ver tudo</Button>
           </div>
@@ -108,7 +149,7 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
               <li className="text-sm text-muted-foreground italic">Nenhuma prioridade cadastrada. Comece pela mais leve.</li>
             )}
             {priorities.map((t) => (
-              <li key={t.id} className="flex items-center justify-between gap-3 p-3 rounded-md bg-secondary/50 border border-border">
+              <li key={t.id} className="flex items-center justify-between gap-3 p-3 rounded-md bg-secondary/60 border border-border">
                 <div className="min-w-0">
                   <div className="text-sm font-medium truncate">{t.title}</div>
                   <div className="text-xs text-muted-foreground">{t.importance}{t.deadline ? ` · até ${t.deadline}` : ""}</div>
@@ -117,20 +158,21 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
               </li>
             ))}
           </ul>
-        </Card>
+        </div>
+      </div>
 
-        <Card>
-          <Chip>Atalhos</Chip>
-          <h3 className="font-display text-2xl mt-3">Portas rápidas</h3>
-          <div className="grid grid-cols-2 gap-3 mt-4">
-            <Shortcut icon={CheckSquare} label="Nova tarefa" onClick={() => onNavigate("tarefas")} />
-            <Shortcut icon={Crown} label="Conselho Soberano" onClick={() => onNavigate("conselho")} />
-            <Shortcut icon={Sparkles} label="Consultar arquétipo" onClick={() => onNavigate("arquetipos")} />
-            <Shortcut icon={BookHeart} label="Escrever diário" onClick={() => onNavigate("diario")} />
-            <Shortcut icon={ScrollText} label="Revisar Constituição" onClick={() => onNavigate("constituicao")} />
-            <Shortcut icon={Flower2} label="Prática espiritual" onClick={() => onNavigate("espiritualidade")} />
-          </div>
-        </Card>
+      {/* Atalhos */}
+      <div className="glass-card p-6 mt-5">
+        <Chip>Atalhos</Chip>
+        <h3 className="font-display text-2xl mt-3">Portas rápidas</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
+          <Shortcut icon={CheckSquare} label="Nova tarefa" onClick={() => onNavigate("tarefas")} />
+          <Shortcut icon={Crown} label="Conselho Soberano" onClick={() => onNavigate("conselho")} />
+          <Shortcut icon={Sparkles} label="Consultar arquétipo" onClick={() => onNavigate("arquetipos")} />
+          <Shortcut icon={BookHeart} label="Escrever diário" onClick={() => onNavigate("diario")} />
+          <Shortcut icon={ScrollText} label="Revisar Constituição" onClick={() => onNavigate("constituicao")} />
+          <Shortcut icon={Flower2} label="Prática espiritual" onClick={() => onNavigate("espiritualidade")} />
+        </div>
       </div>
     </>
   );
@@ -138,7 +180,7 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
 
 function Shortcut({ icon: Icon, label, onClick }: { icon: React.ComponentType<{ className?: string }>; label: string; onClick: () => void }) {
   return (
-    <button onClick={onClick} className="flex flex-col items-start gap-2 p-3 rounded-md border border-border bg-secondary/40 hover:bg-secondary hover:border-[color-mix(in_oklab,var(--gold)_25%,transparent)] transition text-left">
+    <button onClick={onClick} className="flex flex-col items-start gap-2 p-3 rounded-lg border border-border bg-secondary/50 hover:bg-secondary hover:border-[color-mix(in_oklab,var(--gold)_35%,transparent)] transition text-left">
       <Icon className="w-4 h-4 gold-text" />
       <span className="text-sm">{label}</span>
     </button>
@@ -162,7 +204,7 @@ function ProgressBar({ label, value, caption }: { label: string; value: number; 
 
 function Stat({ label, value }: { label: string; value: number | string }) {
   return (
-    <div className="p-3 rounded-md border border-border bg-secondary/40">
+    <div className="p-3 rounded-lg border border-border bg-secondary/50">
       <div className="font-display text-2xl gold-text">{value}</div>
       <div className="text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
     </div>

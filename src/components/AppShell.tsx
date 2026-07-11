@@ -2,8 +2,10 @@ import { useState, type ReactNode } from "react";
 import {
   LayoutDashboard, UserCircle2, ScrollText, Crown, Sparkles, CheckSquare, ListChecks,
   BookHeart, Calculator, Flower2, Home, TrendingUp, Building2, Users, Download, LogOut, Menu, X,
+  Sun, Moon,
 } from "lucide-react";
 import { useStore } from "@/lib/store";
+import { useTheme } from "@/hooks/use-theme";
 
 export type ViewKey =
   | "dashboard" | "perfil" | "constituicao" | "arquetipos" | "conselho"
@@ -38,19 +40,29 @@ export function AppShell({
   active, onNavigate, children,
 }: { active: ViewKey; onNavigate: (v: ViewKey) => void; children: ReactNode }) {
   const { lock, state } = useStore();
+  const { mode, toggle } = useTheme();
   const [open, setOpen] = useState(false);
 
   const NavList = (
     <nav className="p-4 space-y-6">
       <div>
-        <div className="flex items-center gap-3 mb-1">
-          <div className="w-9 h-9 rounded-full gold-border flex items-center justify-center">
-            <Sparkles className="w-4 h-4 gold-text" />
+        <div className="flex items-center justify-between gap-3 mb-1">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-9 h-9 rounded-full gold-border flex items-center justify-center shrink-0">
+              <Sparkles className="w-4 h-4 gold-text" />
+            </div>
+            <div className="min-w-0">
+              <div className="font-display text-xl leading-none truncate">Juliana OS</div>
+              <div className="text-[10px] uppercase tracking-widest gold-text mt-1">Sovereignty</div>
+            </div>
           </div>
-          <div>
-            <div className="font-display text-xl leading-none">Juliana OS</div>
-            <div className="text-[10px] uppercase tracking-widest gold-text mt-1">Sovereignty</div>
-          </div>
+          <button
+            onClick={toggle}
+            aria-label={mode === "day" ? "Ativar modo noite" : "Ativar modo dia"}
+            className="p-2 rounded-full gold-border hover:bg-secondary transition shrink-0"
+          >
+            {mode === "day" ? <Moon className="w-4 h-4 gold-text" /> : <Sun className="w-4 h-4 gold-text" />}
+          </button>
         </div>
       </div>
       {GROUPS.map((g) => (
@@ -95,17 +107,26 @@ export function AppShell({
   return (
     <div className="min-h-screen flex">
       {/* Desktop sidebar */}
-      <aside className="hidden lg:block w-72 border-r border-border bg-[color-mix(in_oklab,var(--card)_70%,transparent)] backdrop-blur-sm sticky top-0 h-screen overflow-y-auto">
+      <aside className="hidden lg:block w-72 border-r border-border glass-soft sticky top-0 h-screen overflow-y-auto rounded-none">
         {NavList}
       </aside>
 
       {/* Mobile top bar */}
-      <div className="lg:hidden fixed top-0 inset-x-0 z-40 flex items-center justify-between px-4 h-14 bg-background/90 backdrop-blur border-b border-border">
+      <div className="lg:hidden fixed top-0 inset-x-0 z-40 flex items-center justify-between px-4 h-14 glass-soft rounded-none border-b border-border">
         <div className="flex items-center gap-2">
           <Sparkles className="w-4 h-4 gold-text" />
           <span className="font-display text-lg">Juliana OS</span>
         </div>
-        <button onClick={() => setOpen(true)} className="p-2"><Menu className="w-5 h-5" /></button>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={toggle}
+            aria-label={mode === "day" ? "Ativar modo noite" : "Ativar modo dia"}
+            className="p-2 rounded-full hover:bg-secondary/60"
+          >
+            {mode === "day" ? <Moon className="w-4 h-4 gold-text" /> : <Sun className="w-4 h-4 gold-text" />}
+          </button>
+          <button onClick={() => setOpen(true)} className="p-2" aria-label="Abrir menu"><Menu className="w-5 h-5" /></button>
+        </div>
       </div>
 
       {open && (
