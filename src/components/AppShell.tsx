@@ -2,8 +2,10 @@ import { useState, type ReactNode } from "react";
 import {
   LayoutDashboard, UserCircle2, ScrollText, Crown, Sparkles, CheckSquare, ListChecks,
   BookHeart, Calculator, Flower2, Home, TrendingUp, Building2, Users, Download, LogOut, Menu, X,
+  Sun, Moon,
 } from "lucide-react";
 import { useStore } from "@/lib/store";
+import { useTheme } from "@/hooks/use-theme";
 
 export type ViewKey =
   | "dashboard" | "perfil" | "constituicao" | "arquetipos" | "conselho"
