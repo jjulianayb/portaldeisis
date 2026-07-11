@@ -46,14 +46,23 @@ export function AppShell({
   const NavList = (
     <nav className="p-4 space-y-6">
       <div>
-        <div className="flex items-center gap-3 mb-1">
-          <div className="w-9 h-9 rounded-full gold-border flex items-center justify-center">
-            <Sparkles className="w-4 h-4 gold-text" />
+        <div className="flex items-center justify-between gap-3 mb-1">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-9 h-9 rounded-full gold-border flex items-center justify-center shrink-0">
+              <Sparkles className="w-4 h-4 gold-text" />
+            </div>
+            <div className="min-w-0">
+              <div className="font-display text-xl leading-none truncate">Juliana OS</div>
+              <div className="text-[10px] uppercase tracking-widest gold-text mt-1">Sovereignty</div>
+            </div>
           </div>
-          <div>
-            <div className="font-display text-xl leading-none">Juliana OS</div>
-            <div className="text-[10px] uppercase tracking-widest gold-text mt-1">Sovereignty</div>
-          </div>
+          <button
+            onClick={toggle}
+            aria-label={mode === "day" ? "Ativar modo noite" : "Ativar modo dia"}
+            className="p-2 rounded-full gold-border hover:bg-secondary transition shrink-0"
+          >
+            {mode === "day" ? <Moon className="w-4 h-4 gold-text" /> : <Sun className="w-4 h-4 gold-text" />}
+          </button>
         </div>
       </div>
       {GROUPS.map((g) => (
