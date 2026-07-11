@@ -3,6 +3,8 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant day (&:is(.day *));
+@custom-variant night (&:is(.night *));
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -39,49 +41,105 @@
   --color-wine: var(--wine);
   --color-ivory: var(--ivory);
   --color-obsidian: var(--obsidian);
+  --color-pearl: var(--pearl);
+  --color-blush: var(--blush);
 
-  --shadow-sanctum: 0 1px 0 0 color-mix(in oklab, var(--gold) 12%, transparent) inset,
-                    0 30px 60px -30px color-mix(in oklab, black 60%, transparent);
-  --shadow-gold: 0 0 0 1px color-mix(in oklab, var(--gold) 20%, transparent),
-                 0 20px 40px -20px color-mix(in oklab, var(--gold) 20%, transparent);
+  --shadow-sanctum: 0 1px 0 0 color-mix(in oklab, var(--gold) 14%, transparent) inset,
+                    0 30px 60px -30px color-mix(in oklab, var(--shadow-tone) 65%, transparent);
+  --shadow-gold: 0 0 0 1px color-mix(in oklab, var(--gold) 22%, transparent),
+                 0 20px 40px -20px color-mix(in oklab, var(--gold) 25%, transparent);
 }
 
-:root {
-  --radius: 0.5rem;
+/* ---------- Night (default) ---------- */
+:root, .night {
+  --radius: 0.75rem;
 
   --obsidian: oklch(0.14 0.005 60);
   --ivory: oklch(0.955 0.012 85);
-  --gold: oklch(0.74 0.11 82);
-  --gold-soft: oklch(0.82 0.07 85);
-  --wine: oklch(0.36 0.09 12);
+  --gold: oklch(0.78 0.11 82);
+  --gold-soft: oklch(0.86 0.07 85);
+  --wine: oklch(0.38 0.09 12);
+  --pearl: oklch(0.22 0.008 60);
+  --blush: oklch(0.36 0.05 20);
+  --shadow-tone: oklch(0 0 0);
 
-  --background: oklch(0.14 0.005 60);
-  --foreground: oklch(0.955 0.012 85);
+  --background: oklch(0.13 0.005 60);
+  --foreground: oklch(0.96 0.012 85);
 
   --card: oklch(0.17 0.006 60);
-  --card-foreground: oklch(0.955 0.012 85);
+  --card-foreground: oklch(0.96 0.012 85);
 
   --popover: oklch(0.17 0.006 60);
-  --popover-foreground: oklch(0.955 0.012 85);
+  --popover-foreground: oklch(0.96 0.012 85);
 
-  --primary: oklch(0.74 0.11 82);
+  --primary: oklch(0.78 0.11 82);
   --primary-foreground: oklch(0.14 0.005 60);
 
   --secondary: oklch(0.22 0.008 60);
-  --secondary-foreground: oklch(0.955 0.012 85);
+  --secondary-foreground: oklch(0.96 0.012 85);
 
   --muted: oklch(0.2 0.006 60);
-  --muted-foreground: oklch(0.72 0.015 80);
+  --muted-foreground: oklch(0.76 0.015 80);
 
   --accent: oklch(0.36 0.09 12);
-  --accent-foreground: oklch(0.955 0.012 85);
+  --accent-foreground: oklch(0.96 0.012 85);
 
   --destructive: oklch(0.55 0.2 25);
   --destructive-foreground: oklch(0.98 0 0);
 
-  --border: oklch(0.28 0.01 70 / 60%);
+  --border: oklch(0.32 0.012 70 / 55%);
   --input: oklch(0.22 0.008 60);
-  --ring: oklch(0.74 0.11 82);
+  --ring: oklch(0.78 0.11 82);
+
+  --bg-aurora:
+    radial-gradient(1200px 600px at 80% -10%, color-mix(in oklab, var(--gold) 10%, transparent), transparent 60%),
+    radial-gradient(900px 500px at -10% 100%, color-mix(in oklab, var(--wine) 34%, transparent), transparent 60%),
+    radial-gradient(700px 500px at 50% 120%, color-mix(in oklab, var(--gold) 6%, transparent), transparent 70%);
+}
+
+/* ---------- Day (pearl / porcelain) ---------- */
+.day {
+  --obsidian: oklch(0.28 0.02 40);
+  --ivory: oklch(0.99 0.008 85);
+  --gold: oklch(0.62 0.11 68);
+  --gold-soft: oklch(0.78 0.09 72);
+  --wine: oklch(0.48 0.11 18);
+  --pearl: oklch(0.985 0.01 80);
+  --blush: oklch(0.93 0.03 25);
+  --shadow-tone: oklch(0.55 0.05 40);
+
+  --background: oklch(0.975 0.012 80);
+  --foreground: oklch(0.24 0.02 40);
+
+  --card: oklch(0.995 0.006 85 / 78%);
+  --card-foreground: oklch(0.24 0.02 40);
+
+  --popover: oklch(0.99 0.008 85);
+  --popover-foreground: oklch(0.24 0.02 40);
+
+  --primary: oklch(0.58 0.11 65);
+  --primary-foreground: oklch(0.99 0.008 85);
+
+  --secondary: oklch(0.95 0.015 75);
+  --secondary-foreground: oklch(0.28 0.02 40);
+
+  --muted: oklch(0.94 0.012 75);
+  --muted-foreground: oklch(0.48 0.02 40);
+
+  --accent: oklch(0.9 0.04 25);
+  --accent-foreground: oklch(0.28 0.03 20);
+
+  --destructive: oklch(0.58 0.2 25);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.6 0.04 60 / 22%);
+  --input: oklch(0.98 0.008 80);
+  --ring: oklch(0.62 0.11 68);
+
+  --bg-aurora:
+    radial-gradient(1100px 700px at 85% -10%, color-mix(in oklab, var(--gold) 22%, transparent), transparent 60%),
+    radial-gradient(900px 600px at -10% 90%, color-mix(in oklab, var(--blush) 55%, transparent), transparent 60%),
+    radial-gradient(700px 500px at 40% 120%, color-mix(in oklab, var(--gold-soft) 25%, transparent), transparent 70%);
 }
 
 @layer base {
@@ -95,31 +153,58 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 640px) {
+    html, body { font-size: 15.5px; line-height: 1.6; }
   }
 
   h1, h2, h3, h4, .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.012em;
+    font-weight: 500;
   }
 
   body {
-    background-image:
-      radial-gradient(1200px 600px at 80% -10%, color-mix(in oklab, var(--gold) 8%, transparent), transparent 60%),
-      radial-gradient(900px 500px at -10% 100%, color-mix(in oklab, var(--wine) 30%, transparent), transparent 60%);
+    background-image: var(--bg-aurora);
     background-attachment: fixed;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--gold) 40%, transparent);
+    color: var(--foreground);
   }
 }
 
 @utility sanctum-card {
   background-color: var(--card);
-  border: 1px solid color-mix(in oklab, var(--gold) 14%, transparent);
+  border: 1px solid color-mix(in oklab, var(--gold) 16%, transparent);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sanctum);
 }
 
+@utility glass-card {
+  background: color-mix(in oklab, var(--card) 82%, transparent);
+  backdrop-filter: blur(22px) saturate(140%);
+  border: 1px solid color-mix(in oklab, var(--gold) 22%, transparent);
+  border-radius: var(--radius-xl);
+  box-shadow:
+    0 1px 0 0 color-mix(in oklab, var(--ivory) 30%, transparent) inset,
+    0 30px 80px -30px color-mix(in oklab, var(--shadow-tone) 55%, transparent);
+}
+
+@utility glass-soft {
+  background: color-mix(in oklab, var(--card) 60%, transparent);
+  backdrop-filter: blur(16px) saturate(130%);
+  border: 1px solid color-mix(in oklab, var(--gold) 14%, transparent);
+  border-radius: var(--radius-lg);
+}
+
 @utility gold-divider {
   height: 1px;
-  background: linear-gradient(to right, transparent, color-mix(in oklab, var(--gold) 60%, transparent), transparent);
+  background: linear-gradient(to right, transparent, color-mix(in oklab, var(--gold) 65%, transparent), transparent);
 }
 
 @utility gold-text {
@@ -127,5 +212,18 @@
 }
 
 @utility gold-border {
-  border: 1px solid color-mix(in oklab, var(--gold) 35%, transparent);
+  border: 1px solid color-mix(in oklab, var(--gold) 40%, transparent);
+}
+
+@utility scroll-x {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.scroll-x::-webkit-scrollbar { display: none; }
+
+@utility snap-card {
+  scroll-snap-align: start;
+  flex-shrink: 0;
 }
