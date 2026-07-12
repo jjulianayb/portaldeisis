@@ -67,18 +67,18 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
       />
 
       {/* Hero emocional */}
-      <div className="relative glass-card overflow-hidden mb-5">
+      <div className="relative glass-card overflow-hidden mb-5 anim-fade-up">
         {heroImg && (
           <div className="absolute inset-0">
-            <img src={heroImg} alt="" className="w-full h-full object-cover opacity-30" loading="lazy" aria-hidden />
+            <img src={heroImg} alt="" className="w-full h-full object-cover opacity-30 anim-float" loading="lazy" aria-hidden />
             <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />
           </div>
         )}
         <div className="relative p-6 md:p-10 max-w-2xl">
           <Chip>Frase do dia</Chip>
-          <p className="mt-4 font-display text-[26px] md:text-4xl leading-snug">"{phrase}"</p>
-          <div className="gold-divider mt-6 w-32" />
-          <div className="mt-6">
+          <p className="mt-4 font-display text-[26px] md:text-4xl leading-snug anim-fade-up" style={{ animationDelay: "140ms" }}>"{phrase}"</p>
+          <div className="mt-6 w-32 h-px shimmer rounded-full" />
+          <div className="mt-6 anim-fade-up" style={{ animationDelay: "260ms" }}>
             <Chip tone="wine">Arquétipo do dia</Chip>
             <div className="mt-3">
               <div className="font-display text-2xl md:text-3xl">
