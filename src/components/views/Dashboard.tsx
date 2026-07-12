@@ -164,10 +164,10 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
       </div>
 
       {/* Atalhos */}
-      <div className="glass-card p-6 mt-5">
+      <div className="glass-card p-6 mt-5 anim-fade-up" style={{ animationDelay: "500ms" }}>
         <Chip>Atalhos</Chip>
         <h3 className="font-display text-2xl mt-3">Portas rápidas</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4 anim-stagger">
           <Shortcut icon={CheckSquare} label="Nova tarefa" onClick={() => onNavigate("tarefas")} />
           <Shortcut icon={Crown} label="Conselho Soberano" onClick={() => onNavigate("conselho")} />
           <Shortcut icon={Sparkles} label="Consultar arquétipo" onClick={() => onNavigate("arquetipos")} />
