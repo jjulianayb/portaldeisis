@@ -182,6 +182,7 @@ const INITIAL: State = {
   council: [],
   archetypeNotes: {},
   numerologyNotes: "",
+  numerology: { shortName: "", pinnacles: null, sectionNotes: {} },
 };
 
 /* ---------- Password hash (simple, local) ---------- */
