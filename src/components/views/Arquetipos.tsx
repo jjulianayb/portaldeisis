@@ -77,19 +77,20 @@ export function ArquetiposView() {
   );
 }
 
-function ArchetypeCard({ a, onOpen, className = "" }: { a: Archetype; onOpen: () => void; className?: string }) {
+function ArchetypeCard({ a, onOpen, className = "", style }: { a: Archetype; onOpen: () => void; className?: string; style?: React.CSSProperties }) {
   const img = ARCHETYPE_IMAGES[a.id];
   return (
     <button
       onClick={onOpen}
-      className={`group text-left glass-card overflow-hidden hover:border-[color-mix(in_oklab,var(--gold)_45%,transparent)] transition ${className}`}
+      style={style}
+      className={`group text-left glass-card overflow-hidden hover-lift hover-glow-img ${className}`}
     >
       <div className="relative aspect-[4/5] overflow-hidden">
         {img && (
           <img
             src={img}
             alt={a.name}
-            className="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-105"
+            className="absolute inset-0 w-full h-full object-cover"
             loading="lazy"
           />
         )}
@@ -103,7 +104,7 @@ function ArchetypeCard({ a, onOpen, className = "" }: { a: Archetype; onOpen: ()
         <div className="flex flex-wrap gap-1.5">
           {a.symbols.slice(0, 3).map((s) => <Chip key={s} tone="muted">{s}</Chip>)}
         </div>
-        <p className="mt-3 italic text-sm gold-text line-clamp-2">"{a.activation}"</p>
+        <p className="mt-3 italic text-sm gold-text line-clamp-2 transition-opacity duration-300 opacity-90 group-hover:opacity-100">"{a.activation}"</p>
       </div>
     </button>
   );
