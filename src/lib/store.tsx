@@ -203,8 +203,13 @@ function loadState(): State {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return INITIAL;
-    const parsed = JSON.parse(raw) as State;
-    return { ...INITIAL, ...parsed, profile: { ...emptyProfile, ...parsed.profile } };
+    const parsed = JSON.parse(raw) as Partial<State>;
+    return {
+      ...INITIAL,
+      ...parsed,
+      profile: { ...emptyProfile, ...(parsed.profile ?? {}) },
+      numerology: { ...INITIAL.numerology, ...(parsed.numerology ?? {}) },
+    } as State;
   } catch {
     return INITIAL;
   }
