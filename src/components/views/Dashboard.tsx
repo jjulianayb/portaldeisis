@@ -182,8 +182,8 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
 
 function Shortcut({ icon: Icon, label, onClick }: { icon: React.ComponentType<{ className?: string }>; label: string; onClick: () => void }) {
   return (
-    <button onClick={onClick} className="flex flex-col items-start gap-2 p-3 rounded-lg border border-border bg-secondary/50 hover:bg-secondary hover:border-[color-mix(in_oklab,var(--gold)_35%,transparent)] transition text-left">
-      <Icon className="w-4 h-4 gold-text" />
+    <button onClick={onClick} className="group flex flex-col items-start gap-2 p-3 rounded-lg border border-border bg-secondary/50 hover:bg-secondary hover:border-[color-mix(in_oklab,var(--gold)_35%,transparent)] hover-lift text-left">
+      <Icon className="w-4 h-4 gold-text transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-4deg]" />
       <span className="text-sm">{label}</span>
     </button>
   );
@@ -197,7 +197,7 @@ function ProgressBar({ label, value, caption }: { label: string; value: number; 
         <span className="text-sm gold-text font-medium">{value}%</span>
       </div>
       <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
-        <div className="h-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)]" style={{ width: `${value}%` }} />
+        <div className="h-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] progress-fill" style={{ width: `${value}%` }} />
       </div>
       {caption && <div className="text-[11px] text-muted-foreground mt-1">{caption}</div>}
     </div>
