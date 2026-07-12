@@ -67,18 +67,18 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
       />
 
       {/* Hero emocional */}
-      <div className="relative glass-card overflow-hidden mb-5">
+      <div className="relative glass-card overflow-hidden mb-5 anim-fade-up">
         {heroImg && (
           <div className="absolute inset-0">
-            <img src={heroImg} alt="" className="w-full h-full object-cover opacity-30" loading="lazy" aria-hidden />
+            <img src={heroImg} alt="" className="w-full h-full object-cover opacity-30 anim-float" loading="lazy" aria-hidden />
             <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />
           </div>
         )}
         <div className="relative p-6 md:p-10 max-w-2xl">
           <Chip>Frase do dia</Chip>
-          <p className="mt-4 font-display text-[26px] md:text-4xl leading-snug">"{phrase}"</p>
-          <div className="gold-divider mt-6 w-32" />
-          <div className="mt-6">
+          <p className="mt-4 font-display text-[26px] md:text-4xl leading-snug anim-fade-up" style={{ animationDelay: "140ms" }}>"{phrase}"</p>
+          <div className="mt-6 w-32 h-px shimmer rounded-full" />
+          <div className="mt-6 anim-fade-up" style={{ animationDelay: "260ms" }}>
             <Chip tone="wine">Arquétipo do dia</Chip>
             <div className="mt-3">
               <div className="font-display text-2xl md:text-3xl">
@@ -97,20 +97,21 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
       </div>
 
       {/* Rail horizontal de arquétipos */}
-      <div className="mb-6">
+      <div className="mb-6 anim-fade-up" style={{ animationDelay: "200ms" }}>
         <div className="flex items-baseline justify-between mb-3 px-1">
           <div className="text-[10px] uppercase tracking-[0.3em] gold-text">Panteão</div>
-          <button onClick={() => onNavigate("arquetipos")} className="text-xs text-muted-foreground hover:text-foreground">ver biblioteca →</button>
+          <button onClick={() => onNavigate("arquetipos")} className="text-xs text-muted-foreground hover:text-foreground transition-colors">ver biblioteca →</button>
         </div>
-        <div className="-mx-5 md:-mx-10 px-5 md:px-10 scroll-x flex gap-3 pb-3">
-          {ARCHETYPES.map((a) => (
+        <div className="-mx-5 md:-mx-10 px-5 md:px-10 scroll-x scroll-x-fade flex gap-3 pb-3">
+          {ARCHETYPES.map((a, i) => (
             <button
               key={a.id}
               onClick={() => onNavigate("arquetipos")}
-              className="snap-card relative w-[140px] h-[180px] rounded-xl overflow-hidden gold-border group"
+              className="snap-card relative w-[140px] h-[180px] rounded-xl overflow-hidden gold-border group hover-lift hover-glow-img anim-fade-up"
+              style={{ animationDelay: `${300 + i * 70}ms` }}
             >
               {ARCHETYPE_IMAGES[a.id] && (
-                <img src={ARCHETYPE_IMAGES[a.id]} alt={a.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110" />
+                <img src={ARCHETYPE_IMAGES[a.id]} alt={a.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" />
               <div className="absolute left-3 right-3 bottom-3">
@@ -124,7 +125,7 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
 
       {/* Progresso + prioridades */}
       <div className="grid md:grid-cols-2 gap-5">
-        <div className="glass-card p-6">
+        <div className="glass-card p-6 hover-lift anim-fade-up" style={{ animationDelay: "340ms" }}>
           <Chip>Progresso</Chip>
           <div className="mt-4 space-y-5">
             <ProgressBar label="Hoje" value={dailyPct} caption={`${dailyDone}/${dailyTotal} rituais`} />
@@ -136,7 +137,8 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
           </div>
         </div>
 
-        <div className="glass-card p-6">
+        <div className="glass-card p-6 hover-lift anim-fade-up" style={{ animationDelay: "420ms" }}>
+
           <div className="flex items-center justify-between gap-3">
             <div className="min-w-0">
               <Chip>Prioridades</Chip>
@@ -162,10 +164,10 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
       </div>
 
       {/* Atalhos */}
-      <div className="glass-card p-6 mt-5">
+      <div className="glass-card p-6 mt-5 anim-fade-up" style={{ animationDelay: "500ms" }}>
         <Chip>Atalhos</Chip>
         <h3 className="font-display text-2xl mt-3">Portas rápidas</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4 anim-stagger">
           <Shortcut icon={CheckSquare} label="Nova tarefa" onClick={() => onNavigate("tarefas")} />
           <Shortcut icon={Crown} label="Conselho Soberano" onClick={() => onNavigate("conselho")} />
           <Shortcut icon={Sparkles} label="Consultar arquétipo" onClick={() => onNavigate("arquetipos")} />
@@ -180,8 +182,8 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
 
 function Shortcut({ icon: Icon, label, onClick }: { icon: React.ComponentType<{ className?: string }>; label: string; onClick: () => void }) {
   return (
-    <button onClick={onClick} className="flex flex-col items-start gap-2 p-3 rounded-lg border border-border bg-secondary/50 hover:bg-secondary hover:border-[color-mix(in_oklab,var(--gold)_35%,transparent)] transition text-left">
-      <Icon className="w-4 h-4 gold-text" />
+    <button onClick={onClick} className="group flex flex-col items-start gap-2 p-3 rounded-lg border border-border bg-secondary/50 hover:bg-secondary hover:border-[color-mix(in_oklab,var(--gold)_35%,transparent)] hover-lift text-left">
+      <Icon className="w-4 h-4 gold-text transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-4deg]" />
       <span className="text-sm">{label}</span>
     </button>
   );
@@ -195,7 +197,7 @@ function ProgressBar({ label, value, caption }: { label: string; value: number; 
         <span className="text-sm gold-text font-medium">{value}%</span>
       </div>
       <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
-        <div className="h-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)]" style={{ width: `${value}%` }} />
+        <div className="h-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] progress-fill" style={{ width: `${value}%` }} />
       </div>
       {caption && <div className="text-[11px] text-muted-foreground mt-1">{caption}</div>}
     </div>
