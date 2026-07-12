@@ -95,6 +95,12 @@ export type CouncilSession = {
 
 export type ArchetypeNotes = Record<string, string>;
 
+export type NumerologyOverrides = {
+  shortName: string;
+  pinnacles: { value: number; startAge: number; endAge: number | null }[] | null;
+  sectionNotes: Record<string, string>;
+};
+
 export type State = {
   version: 1;
   passwordHash: string | null;
@@ -110,7 +116,9 @@ export type State = {
   council: CouncilSession[];
   archetypeNotes: ArchetypeNotes;
   numerologyNotes: string;
+  numerology: NumerologyOverrides;
 };
+
 
 /* ---------- Seed ---------- */
 
