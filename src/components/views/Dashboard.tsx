@@ -97,20 +97,21 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
       </div>
 
       {/* Rail horizontal de arquétipos */}
-      <div className="mb-6">
+      <div className="mb-6 anim-fade-up" style={{ animationDelay: "200ms" }}>
         <div className="flex items-baseline justify-between mb-3 px-1">
           <div className="text-[10px] uppercase tracking-[0.3em] gold-text">Panteão</div>
-          <button onClick={() => onNavigate("arquetipos")} className="text-xs text-muted-foreground hover:text-foreground">ver biblioteca →</button>
+          <button onClick={() => onNavigate("arquetipos")} className="text-xs text-muted-foreground hover:text-foreground transition-colors">ver biblioteca →</button>
         </div>
-        <div className="-mx-5 md:-mx-10 px-5 md:px-10 scroll-x flex gap-3 pb-3">
-          {ARCHETYPES.map((a) => (
+        <div className="-mx-5 md:-mx-10 px-5 md:px-10 scroll-x scroll-x-fade flex gap-3 pb-3">
+          {ARCHETYPES.map((a, i) => (
             <button
               key={a.id}
               onClick={() => onNavigate("arquetipos")}
-              className="snap-card relative w-[140px] h-[180px] rounded-xl overflow-hidden gold-border group"
+              className="snap-card relative w-[140px] h-[180px] rounded-xl overflow-hidden gold-border group hover-lift hover-glow-img anim-fade-up"
+              style={{ animationDelay: `${300 + i * 70}ms` }}
             >
               {ARCHETYPE_IMAGES[a.id] && (
-                <img src={ARCHETYPE_IMAGES[a.id]} alt={a.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110" />
+                <img src={ARCHETYPE_IMAGES[a.id]} alt={a.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" />
               <div className="absolute left-3 right-3 bottom-3">
@@ -124,7 +125,7 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
 
       {/* Progresso + prioridades */}
       <div className="grid md:grid-cols-2 gap-5">
-        <div className="glass-card p-6">
+        <div className="glass-card p-6 hover-lift anim-fade-up" style={{ animationDelay: "340ms" }}>
           <Chip>Progresso</Chip>
           <div className="mt-4 space-y-5">
             <ProgressBar label="Hoje" value={dailyPct} caption={`${dailyDone}/${dailyTotal} rituais`} />
@@ -136,7 +137,8 @@ export function DashboardView({ onNavigate }: { onNavigate: (v: ViewKey) => void
           </div>
         </div>
 
-        <div className="glass-card p-6">
+        <div className="glass-card p-6 hover-lift anim-fade-up" style={{ animationDelay: "420ms" }}>
+
           <div className="flex items-center justify-between gap-3">
             <div className="min-w-0">
               <Chip>Prioridades</Chip>
