@@ -95,6 +95,12 @@ export type CouncilSession = {
 
 export type ArchetypeNotes = Record<string, string>;
 
+export type NumerologyOverrides = {
+  shortName: string;
+  pinnacles: { value: number; startAge: number; endAge: number | null }[] | null;
+  sectionNotes: Record<string, string>;
+};
+
 export type State = {
   version: 1;
   passwordHash: string | null;
@@ -110,7 +116,9 @@ export type State = {
   council: CouncilSession[];
   archetypeNotes: ArchetypeNotes;
   numerologyNotes: string;
+  numerology: NumerologyOverrides;
 };
+
 
 /* ---------- Seed ---------- */
 
@@ -174,6 +182,7 @@ const INITIAL: State = {
   council: [],
   archetypeNotes: {},
   numerologyNotes: "",
+  numerology: { shortName: "", pinnacles: null, sectionNotes: {} },
 };
 
 /* ---------- Password hash (simple, local) ---------- */
@@ -194,8 +203,13 @@ function loadState(): State {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return INITIAL;
-    const parsed = JSON.parse(raw) as State;
-    return { ...INITIAL, ...parsed, profile: { ...emptyProfile, ...parsed.profile } };
+    const parsed = JSON.parse(raw) as Partial<State>;
+    return {
+      ...INITIAL,
+      ...parsed,
+      profile: { ...emptyProfile, ...(parsed.profile ?? {}) },
+      numerology: { ...INITIAL.numerology, ...(parsed.numerology ?? {}) },
+    } as State;
   } catch {
     return INITIAL;
   }
