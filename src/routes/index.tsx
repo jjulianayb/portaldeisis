@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { StoreProvider, useStore } from "@/lib/store";
 import { useHydrated } from "@/hooks/use-hydrated";
-import { Login } from "@/components/Login";
+
 import { AppShell, type ViewKey } from "@/components/AppShell";
 import { DashboardView } from "@/components/views/Dashboard";
 import { PerfilView } from "@/components/views/Perfil";
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/")({
 
 function RootGate() {
   const hydrated = useHydrated();
-  const { hydrated: storeHydrated, unlocked } = useStore();
+  const { hydrated: storeHydrated } = useStore();
 
   if (!hydrated || !storeHydrated) {
     return (
@@ -39,7 +39,6 @@ function RootGate() {
       </div>
     );
   }
-  if (!unlocked) return <Login />;
   return <AppRouter />;
 }
 

@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import {
   LayoutDashboard, UserCircle2, ScrollText, Crown, Sparkles, CheckSquare, ListChecks,
-  BookHeart, Calculator, Flower2, Home, TrendingUp, Building2, Users, Download, LogOut, Menu, X,
+  BookHeart, Calculator, Flower2, Home, TrendingUp, Building2, Users, Download, Menu, X,
   Sun, Moon,
 } from "lucide-react";
 import { useStore } from "@/lib/store";
@@ -39,7 +39,7 @@ const GROUPS = ["Comando", "Identidade", "Prosperidade", "Interior", "Sistema"];
 export function AppShell({
   active, onNavigate, children,
 }: { active: ViewKey; onNavigate: (v: ViewKey) => void; children: ReactNode }) {
-  const { lock, state } = useStore();
+  const { state } = useStore();
   const { mode, toggle } = useTheme();
   const [open, setOpen] = useState(false);
 
@@ -91,13 +91,7 @@ export function AppShell({
         </div>
       ))}
       <div className="pt-4 border-t border-border">
-        <button
-          onClick={lock}
-          className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/60"
-        >
-          <LogOut className="w-4 h-4" /> Trancar santuário
-        </button>
-        <p className="mt-4 px-3 text-[10px] uppercase tracking-widest text-muted-foreground">
+        <p className="px-3 text-[10px] uppercase tracking-widest text-muted-foreground">
           {state.profile.name || "Juliana"}
         </p>
       </div>
