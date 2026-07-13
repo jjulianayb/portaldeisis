@@ -1,13 +1,12 @@
 import { useRef, useState } from "react";
 import { useStore } from "@/lib/store";
-import { PageHeader, Card, Field, Input, Button } from "@/components/ui-kit";
+import { PageHeader, Card, Button } from "@/components/ui-kit";
 import { Download, Upload, RotateCcw } from "lucide-react";
 
 export function BackupView() {
-  const { exportJSON, importJSON, reset, changePassword } = useStore();
+  const { exportJSON, importJSON, reset } = useStore();
   const fileRef = useRef<HTMLInputElement>(null);
   const [msg, setMsg] = useState("");
-  const [oldPw, setOldPw] = useState(""); const [newPw, setNewPw] = useState("");
 
   function doExport() {
     const blob = new Blob([exportJSON()], { type: "application/json" });
@@ -26,14 +25,6 @@ export function BackupView() {
       setMsg(ok ? "Dados importados." : "Arquivo inválido.");
     };
     reader.readAsText(f);
-  }
-
-  async function doChangePw(e: React.FormEvent) {
-    e.preventDefault();
-    if (newPw.length < 4) return setMsg("Nova senha muito curta.");
-    const ok = await changePassword(oldPw, newPw);
-    setMsg(ok ? "Senha alterada." : "Senha atual incorreta.");
-    if (ok) { setOldPw(""); setNewPw(""); }
   }
 
   return (
@@ -59,20 +50,6 @@ export function BackupView() {
         </Card>
 
         <Card>
-          <h3 className="font-display text-2xl">Alterar senha</h3>
-          <div className="gold-divider my-4 w-16" />
-          <form onSubmit={doChangePw} className="space-y-3">
-            <Field label="Senha atual"><Input type="password" value={oldPw} onChange={(e) => setOldPw(e.target.value)} /></Field>
-            <Field label="Nova senha"><Input type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} /></Field>
-            <Button type="submit">Alterar</Button>
-          </form>
-        </Card>
-      </div>
-
-      {msg && <p className="mt-6 text-sm text-center gold-text">{msg}</p>}
-
-      <div className="mt-10">
-        <Card>
           <h3 className="font-display text-2xl">Sobre este sistema</h3>
           <div className="gold-divider my-4 w-16" />
           <div className="space-y-3 text-sm text-muted-foreground">
@@ -87,6 +64,8 @@ export function BackupView() {
           </div>
         </Card>
       </div>
+
+      {msg && <p className="mt-6 text-sm text-center gold-text">{msg}</p>}
     </>
   );
 }
