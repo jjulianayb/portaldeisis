@@ -30,7 +30,7 @@ export const Route = createFileRoute("/")({
 
 function RootGate() {
   const hydrated = useHydrated();
-  const { hydrated: storeHydrated, unlocked } = useStore();
+  const { hydrated: storeHydrated } = useStore();
 
   if (!hydrated || !storeHydrated) {
     return (
@@ -39,7 +39,6 @@ function RootGate() {
       </div>
     );
   }
-  if (!unlocked) return <Login />;
   return <AppRouter />;
 }
 
