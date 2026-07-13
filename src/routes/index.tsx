@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { StoreProvider, useStore } from "@/lib/store";
 import { useHydrated } from "@/hooks/use-hydrated";
-import { Login } from "@/components/Login";
+
 import { AppShell, type ViewKey } from "@/components/AppShell";
 import { DashboardView } from "@/components/views/Dashboard";
 import { PerfilView } from "@/components/views/Perfil";
