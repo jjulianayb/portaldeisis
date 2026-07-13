@@ -237,16 +237,9 @@ const StoreContext = createContext<Ctx | null>(null);
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<State>(INITIAL);
   const [hydrated, setHydrated] = useState(false);
-  const [unlocked, setUnlocked] = useState(false);
 
   useEffect(() => {
-    const loaded = loadState();
-    setState(loaded);
-    if (typeof window !== "undefined") {
-      const remembered = localStorage.getItem(SESSION_KEY) === "1";
-      if (remembered && loaded.passwordHash) setUnlocked(true);
-      if (!loaded.passwordHash) setUnlocked(false);
-    }
+    setState(loadState());
     setHydrated(true);
   }, []);
 
@@ -257,33 +250,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   const update = useCallback((fn: (s: State) => State) => setState((s) => fn(s)), []);
 
-  const setPassword = useCallback(async (pw: string) => {
-    const h = await sha256(pw);
-    setState((s) => ({ ...s, passwordHash: h }));
-    setUnlocked(true);
-  }, []);
-
-  const changePassword = useCallback(async (oldPw: string, newPw: string) => {
-    const oldH = await sha256(oldPw);
-    if (oldH !== state.passwordHash) return false;
-    const newH = await sha256(newPw);
-    setState((s) => ({ ...s, passwordHash: newH }));
-    return true;
-  }, [state.passwordHash]);
-
-  const unlock = useCallback(async (pw: string, remember: boolean) => {
-    const h = await sha256(pw);
-    if (h !== state.passwordHash) return false;
-    setUnlocked(true);
-    if (remember) localStorage.setItem(SESSION_KEY, "1");
-    else localStorage.removeItem(SESSION_KEY);
-    return true;
-  }, [state.passwordHash]);
-
-  const lock = useCallback(() => {
-    setUnlocked(false);
-    localStorage.removeItem(SESSION_KEY);
-  }, []);
+  const setPassword = useCallback(async (_pw: string) => {}, []);
+  const changePassword = useCallback(async (_o: string, _n: string) => true, []);
+  const unlock = useCallback(async (_pw: string, _remember: boolean) => true, []);
+  const lock = useCallback(() => {}, []);
 
   const exportJSON = useCallback(() => JSON.stringify(state, null, 2), [state]);
   const importJSON = useCallback((json: string) => {
@@ -298,15 +268,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(SESSION_KEY);
     setState(INITIAL);
-    setUnlocked(false);
   }, []);
 
   const value = useMemo<Ctx>(() => ({
-    state, hydrated, unlocked,
-    hasPassword: !!state.passwordHash,
+    state, hydrated, unlocked: true,
+    hasPassword: false,
     setPassword, changePassword, unlock, lock, update,
     exportJSON, importJSON, reset,
-  }), [state, hydrated, unlocked, setPassword, changePassword, unlock, lock, update, exportJSON, importJSON, reset]);
+  }), [state, hydrated, setPassword, changePassword, unlock, lock, update, exportJSON, importJSON, reset]);
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }
