@@ -39,7 +39,7 @@ const GROUPS = ["Comando", "Identidade", "Prosperidade", "Interior", "Sistema"];
 export function AppShell({
   active, onNavigate, children,
 }: { active: ViewKey; onNavigate: (v: ViewKey) => void; children: ReactNode }) {
-  const { lock, state } = useStore();
+  const { state } = useStore();
   const { mode, toggle } = useTheme();
   const [open, setOpen] = useState(false);
 
