@@ -20,6 +20,7 @@ import { ImperioView } from "@/components/views/Imperio";
 import { RedeView } from "@/components/views/Rede";
 import { BackupView } from "@/components/views/Backup";
 import { TarotView } from "@/components/views/Tarot";
+import { LockGate } from "@/components/LockGate";
 
 export const Route = createFileRoute("/")({
   component: () => (
@@ -40,7 +41,11 @@ function RootGate() {
       </div>
     );
   }
-  return <AppRouter />;
+  return (
+    <LockGate>
+      <AppRouter />
+    </LockGate>
+  );
 }
 
 function AppRouter() {
