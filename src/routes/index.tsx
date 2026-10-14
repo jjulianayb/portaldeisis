@@ -19,6 +19,7 @@ import { InsightsView } from "@/components/views/Insights";
 import { ImperioView } from "@/components/views/Imperio";
 import { RedeView } from "@/components/views/Rede";
 import { BackupView } from "@/components/views/Backup";
+import { TarotView } from "@/components/views/Tarot";
 
 export const Route = createFileRoute("/")({
   component: () => (
@@ -61,6 +62,7 @@ function AppRouter() {
       {view === "imperio" && <ImperioView />}
       {view === "rede" && <RedeView />}
       {view === "backup" && <BackupView />}
+      {view === "tarot" && <TarotView />}
     </AppShell>
   );
 }
