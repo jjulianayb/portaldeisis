@@ -2,7 +2,7 @@ import { useState, type ReactNode } from "react";
 import {
   LayoutDashboard, UserCircle2, ScrollText, Crown, Sparkles, CheckSquare, ListChecks,
   BookHeart, Calculator, Flower2, Home, TrendingUp, Building2, Users, Download, Menu, X,
-  Sun, Moon,
+  Sun, Moon, Star,
 } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { useTheme } from "@/hooks/use-theme";
@@ -10,7 +10,7 @@ import { useTheme } from "@/hooks/use-theme";
 export type ViewKey =
   | "dashboard" | "perfil" | "constituicao" | "arquetipos" | "conselho"
   | "tarefas" | "checklist" | "diario" | "numerologia" | "espiritualidade"
-  | "fengshui" | "insights" | "imperio" | "rede" | "backup";
+  | "fengshui" | "insights" | "imperio" | "rede" | "backup" | "tarot";
 
 const NAV: { key: ViewKey; label: string; icon: React.ComponentType<{ className?: string }>; group: string }[] = [
   { key: "dashboard", label: "Santuário", icon: LayoutDashboard, group: "Comando" },
@@ -28,6 +28,7 @@ const NAV: { key: ViewKey; label: string; icon: React.ComponentType<{ className?
 
   { key: "diario", label: "Diário", icon: BookHeart, group: "Interior" },
   { key: "espiritualidade", label: "Práticas & Orações", icon: Flower2, group: "Interior" },
+  { key: "tarot", label: "Tarô", icon: Star, group: "Interior" },
   { key: "numerologia", label: "Mapa numerológico", icon: Calculator, group: "Interior" },
   { key: "fengshui", label: "Feng Shui & Ambiente", icon: Home, group: "Interior" },
 
